@@ -56,27 +56,19 @@
 
 static struct interrupt_status gCheck;    // static keyword allocates a memory to struct and initialize to 0.
 
-// Create objects in static memory.
-static struct message msg;
-static conv_voltage_t dc_param;
-
 // Create an object of UART0
 uart_handle_t huart0;
 
-// Create objects in static memory.
-static dc_converter_t dc_5v;  // Create an object of 5V DC converter.
-static dc_converter_t dc_1v8; // Create an object of 1.8V DC converter.
-static dc_converter_t dc_3v3; // Create an object of 3.3V DC converter.
-
 // Declaration
 static void InitUART0(void);
-static void InitDC5V1(void);
-static void InitDCConv(dc_converter_t *p_dc_conv, conv_voltage_t *p_dc_param);
+
 //static void LogSent(message_t *p_msg, log_type_t log_type, log_num_t number);
 static void PlotDataSent(DL_ADC12_MEM_IDX index);
+
 // Use extern to declare the function in the other .c file if no header file.
 extern struct regulator_dev *CreateDC1V2(void);
 
+// Main start
 int main(void) {
     // Initialize the peripherals
     SYSCFG_DL_init();
@@ -96,8 +88,7 @@ int main(void) {
     LogMessageSent(p_log_msg, LOG_INFO, UART0_INIT);
 #endif
 
-    InitDC5V1();
-    InitDCConv(&dc_1v8, &dc_param);
+    // New way to initialize the DC converter, and access it by its pointer.
     struct regulator_dev *p_dc_1v2 = CreateDC1V2();
     uint16_t tmp_output_voltage = p_dc_1v2->desc->fixed_mV;
 
@@ -125,6 +116,7 @@ uint16_t tmp_vol_read = dc_5v.read_func(&dc_5v);
   tmp_status = HAL_UART_Transmit(&huart0, tmp_array, sizeof(tmp_array));
 #endif
 
+  // Super loop
     while (1) {
         DL_ADC12_startConversion(ADC0);
 
@@ -178,9 +170,6 @@ void UART_0_INST_IRQHandler(void) {
 }
 /* ============== End of Interrupt handlers ============== */
 
-/* ================= Implementation ===========================================
- */
-
 /*
  * @brief, Read out the result of ADC conversion. Send out the high byte and low
  * byte in order with D1 as a message type.
@@ -210,42 +199,4 @@ void InitUART0(void) {
     // Initialize the object of huart0
     huart0.instance = UART0;
     huart0.gState = HAL_UART_STATE_READY;
-}
-
-// Allocate memory for the message.
-/*
-void AllocMem4Message(message_t *p_msg) {
-    // Create an object of log_t struct in static memory.
-    static log_t log;
-    p_msg->log = &log;
-
-    // Create an object of adc_buffer_t struct in static memory.
-    static adc_buffer_t adc_buffer;
-    p_msg->adc_buffer = &adc_buffer;
-}
-*/
-
-/* ================= End of Implementation ===================================
- */
-
-/*---------------------------------- Initialize DC converter
- * ----------------------------*/
-static void InitDC5V1(void) {
-    dc_5v.cfg->voltage = DC_5V1;
-    dc_5v.cfg->ocp_trip = D51_OC_TRIP;
-    dc_5v.cfg->ocp_recovery = D51_OC_RECOVERY;
-}
-
-static void InitDCConv(dc_converter_t *p_dc_conv, conv_voltage_t *p_dc_param) {
-    /* ----- Allocate the memory for cfg and instance within dc_converter_t
-     * struct. ----- */
-    static conv_config_t config;
-    p_dc_conv->cfg = &config;
-    static conv_info_t info;
-    p_dc_conv->instance = &info;
-
-    // Set the parameters to the converter.
-    p_dc_conv->cfg->voltage = *(p_dc_param + 0);
-    p_dc_conv->cfg->ocp_trip = *(p_dc_param + 1);
-    p_dc_conv->cfg->ocp_recovery = *(p_dc_param + 2);
 }

@@ -8,13 +8,18 @@
 #include "log.h"
 #include "dl_uart_custom.h"
 
+/* ---------------- Private variables ---------------- */
 struct log_message {
     struct message *msg;
     struct log *log;
 };
 
-// Public API
+/* ---------------- Public API --------------------------- */
+
+// Initialize a log message.
 struct log_message *InitLogMessage(void);
+
+// Send a log message. Return UART status, say HAL_OK if sent successfully.
 hal_status_t LogMessageSent(struct log_message *p_log_msg,
                     enum log_type log_type,
                     enum log_num number);

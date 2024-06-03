@@ -3,7 +3,7 @@
 //
 #include "message_log.h"
 
-// Does it refer to the huart0 that declared in adc_to_uart.c before int main()?
+// Use the UART0 instance that is already created in adc_to_uart.c.
 extern uart_handle_t huart0;
 
 #define LOG_BUFFER_SIZE 64
@@ -47,13 +47,12 @@ struct log_message *InitLogMessage(void) {
 }
 
 /*
- * @brief, Send a log with type, INFO, WARN or ERROR etc., and number,
- * see typedef enum {} log_num_t.
+ * @brief, Send a log with type, say INFO, WARN or ERROR etc., and number,
  * @param,
  * -------- p_log_msg, a pointer or an address of a log message instance.
  * -------- log_type, type of the log, say INFO, WARN, ERROR or FATAL etc.
  * -------- number, see the definition in enum called log_num_t.
- * @retval, none.
+ * @retval, uart's status, say HAL_OK, HAL_ERROR, ... .
  * @note, this function only works when UART0 is initialized.
  * @note, no FIFO enable. Send one byte per time by calling HAL_UART_Transmit.
  */

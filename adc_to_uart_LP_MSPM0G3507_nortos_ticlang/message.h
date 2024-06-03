@@ -4,10 +4,6 @@
 #include "message.h"
 #include <sys/stdint.h>
 
-// Capacity configuration.
-#define BUFFER_SIZE 128
-uint8_t array[BUFFER_SIZE];
-
 /*---------------------------------- buffer -----------------------------------*/
 // Set up a struct to store the bytes to be transmitted.
 struct buffer {
@@ -17,7 +13,6 @@ struct buffer {
     uint8_t *write_index;
     uint8_t *read_index;
 };
-/*----------------------------------------------------------------------------*/
 
 /* --------------------------- message format ------------------------------- */
 // enum to indicate the types of messages, say log, plot date
@@ -38,6 +33,5 @@ struct message {
     struct buffer *buf;
     enum state gState;
 };
-/* -------------------------------------------------------------------------- */
 
 #endif // MSG_BUFFER_H

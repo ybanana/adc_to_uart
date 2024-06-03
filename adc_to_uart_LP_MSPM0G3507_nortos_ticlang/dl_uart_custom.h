@@ -28,7 +28,7 @@ typedef enum {
     HAL_TIMEOUT   = 0x03U,
 } hal_status_t;
 
-enum {
+enum uart_error_code {
     HAL_UART_ERROR_NONE        = 0x00U,    // No error
     HAL_UART_ERROR_PE          = 0x01U,    // Parity error
 };
