@@ -2,51 +2,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "uart_echo",
-            "type": "ccs-debug",
-            "request": "launch",
-            "project": "uart_echo_interrupts_standby_LP_MSPM0L1306_nortos_ticlang"
-        },
-        {
-            "name": "empty_LP_MSPM0L1306_nortos_ticlang",
-            "type": "ccs-debug",
-            "request": "launch",
-            "project": "empty_LP_MSPM0L1306_nortos_ticlang"
-        },
-        {
-            "name": "M0L1306_Demo_01",
-            "type": "ccs-debug",
-            "request": "launch",
-            "project": "M0L1306_Demo_01"
-        },
-        {
-            "name": "gc_simple_json_LP_MSPM0L1306_nortos_ticlang",
-            "type": "ccs-debug",
-            "request": "launch",
-            "project": "gc_simple_json_LP_MSPM0L1306_nortos_ticlang"
-        },
-        {
-            "name": "uart_echo_interrupts_standby_LP_MSPM0L1306_nortos_ticlang",
-            "type": "ccs-debug",
-            "request": "launch",
-            "project": "uart_echo_interrupts_standby_LP_MSPM0L1306_nortos_ticlang",
-            "debuggerSettings": {
-                "targetConfigs/MSPM0L1306.ccxml": {
-                    "Texas Instruments XDS110 USB Debug Probe/CORTEX_M0P": {
-                        "isa": "CORTEX_M0P",
-                        "partnum": "MSPM0L1306",
-                        "data": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n<PropertyValues/>\n"
-                    }
-                }
-            }
-        },
-        {
-            "name": "uart_rx_multibyte_fifo_dma_interrupts_LP_MSPM0L1306_nortos_ticlang",
-            "type": "ccs-debug",
-            "request": "launch",
-            "project": "uart_rx_multibyte_fifo_dma_interrupts_LP_MSPM0L1306_nortos_ticlang"
-        },
-        {
             "name": "adc_to_uart_LP_MSPM0G3507_nortos_ticlang",
             "type": "ccs-debug",
             "request": "launch",
@@ -54,8 +9,6 @@
             "debuggerSettings": {
                 "targetConfigs/MSPM0G3507.ccxml": {
                     "Texas Instruments XDS110 USB Debug Probe/CORTEX_M0P": {
-                        "isa": "CORTEX_M0P",
-                        "partnum": "MSPM0G3507",
                         "data": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n<PropertyValues/>\n"
                     }
                 }
