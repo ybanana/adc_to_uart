@@ -22,8 +22,12 @@ enum regulator_name {
     LM5045,
 };
 
-enum regulator_enable {
+enum regulator_enable_status {
+    // Analog regulator
+    DISABLE_BY_EN_PIN,
     ENABLE_BY_EN_PIN,
+    // Digital regulator
+    DISABLE_BY_PMBUS_COMM,
     ENABLE_BY_PMBUS_COMM,
 };
 
@@ -31,6 +35,7 @@ struct regulator_supervision {
     uint16_t output_voltage;
     uint16_t input_voltage;
     uint16_t output_current;
+    enum regulator_enable_status ena;
 };
 
 /* struct regulator_desc - static regulator description.*/
@@ -38,7 +43,6 @@ struct regulator_desc {
     enum regulator_name name;
     enum regulator_type type;
     uint16_t fixed_mV;
-    enum regulator_enable ena;
 };
 
 /* struct regulator_constraints - */
@@ -65,7 +69,7 @@ struct regulator_ops {
     /* get regulator voltage.*/
     uint16_t (*get_voltage)(struct regulator_dev *);
     /* enable/disable regulator.*/
-    void (*enable)(struct regulator_dev *);
+    void (*enable)(struct regulator_dev *, uint8_t *);
     void (*disable)(struct regulator_dev *);
     /* report regulator status */
     int (*get_status)(struct regulator_dev *rdev);
@@ -88,7 +92,7 @@ struct regulator_dev {
 uint16_t regulator_get_voltage_by_adc(struct regulator_dev *rdev);
 
 // MSPM0 gpio pin tie high to enable the regulator.
-void regulator_enable_analog(struct regulator_dev *rdev);
+void regulator_enable_analog(struct regulator_dev *rdev, uint8_t *pin);
 void regulator_disable_analog(struct regulator_dev *rdev);
 
 /* ----------------- Digital regulator with PMBus ----------------- */

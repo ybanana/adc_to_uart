@@ -2,7 +2,6 @@
 #define DL_UART_CUSTOM_H
 
 // Set up a struct for UART
-#include "dl_uart_custom.h"
 #include "ti/devices/msp/peripherals/hw_uart.h"
 #include <stdint.h>
 
