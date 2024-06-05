@@ -1,6 +1,7 @@
 #ifndef CONVERTER_H
 #define CONVERTER_H
 
+#include "dl_gpio_custom.h"
 #include <stdint.h>
 
 /*
@@ -69,7 +70,7 @@ struct regulator_ops {
     /* get regulator voltage.*/
     uint16_t (*get_voltage)(struct regulator_dev *);
     /* enable/disable regulator.*/
-    void (*enable)(struct regulator_dev *, uint8_t *);
+    void (*enable)(struct regulator_dev *, struct gpio_handle *, uint32_t);
     void (*disable)(struct regulator_dev *);
     /* report regulator status */
     int (*get_status)(struct regulator_dev *rdev);
@@ -92,8 +93,11 @@ struct regulator_dev {
 uint16_t regulator_get_voltage_by_adc(struct regulator_dev *rdev);
 
 // MSPM0 gpio pin tie high to enable the regulator.
-void regulator_enable_analog(struct regulator_dev *rdev, uint8_t *pin);
+void analog_conv_enable_active_high(struct regulator_dev *rdev, struct gpio_handle *hgpio, uint32_t pin);
 void regulator_disable_analog(struct regulator_dev *rdev);
+
+// MSPM0 gpio pin tie **low** to enable the converter.
+void analog_conv_enable_active_low(struct regulator_dev *rdev, struct gpio_handle *hgpio, uint32_t pin);
 
 /* ----------------- Digital regulator with PMBus ----------------- */
 int regulator_get_voltage_by_regmap(struct regulator_dev *rdev);

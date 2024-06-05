@@ -78,7 +78,7 @@ static void PlotDataSent(DL_ADC12_MEM_IDX index);
 
 // Use extern to declare the function in the other .c file if no header file.
 extern struct regulator_dev CreateDC1V2(void);
-extern void enable_dc_1v2(struct regulator_dev *rdev, struct gpio_handle *hgpio, uint32_t pin);
+extern enum regulator_enable_status enable_dc_1v2(struct regulator_dev *rdev, struct gpio_handle *hgpio, uint32_t pin);
 
 // Main start
 int main(void) {
@@ -128,8 +128,9 @@ int main(void) {
     tmp_status = HAL_UART_Transmit(&huart0, tmp_array, sizeof(tmp_array));
 #endif
 
+    enum regulator_enable_status tmp_conv_status = 0;
     // enable dc_1v2 by GPIO PB27 (see schematic and sysconfig). Would be put in system_paramter.h
-    enable_dc_1v2(&dc_1v2, &hgpiob, DL_GPIO_PIN_27);
+    tmp_conv_status = enable_dc_1v2(&dc_1v2, &hgpiob, DL_GPIO_PIN_27);
     
     // enable dummy_rail by GPIO PA0.
     enable_dummy_rail(&hgpioa, DL_GPIO_PIN_0);

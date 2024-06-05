@@ -18,7 +18,7 @@ static struct regulator_supervision dc_1v2_monitor = {
 };
 
 static const struct regulator_ops dc_1v2_ops = {
-    .enable = regulator_enable_analog,
+    .enable = analog_conv_enable_active_high,
     .get_voltage = regulator_get_voltage_by_adc,
 };
 
@@ -44,9 +44,7 @@ struct regulator_dev CreateDC1V2(void) {
 }
 
 // Function to enable DC_1V2
-void enable_dc_1v2(struct regulator_dev *rdev, struct gpio_handle *hgpio, uint32_t pin) {
-    // Set pin to high to enable
-    DL_GPIO_setPins(hgpio->instance, pin);
-    // Set the DC converter status to Enabled.
-    rdev->monitor->ena = ENABLE_BY_EN_PIN;
+enum regulator_enable_status enable_dc_1v2(struct regulator_dev *rdev, struct gpio_handle *hgpio, uint32_t pin) {
+    rdev->operations->enable(rdev, hgpio, pin);
+    return rdev->monitor->ena;
 }
