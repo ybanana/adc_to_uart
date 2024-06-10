@@ -1,0 +1,7 @@
+message_adc.o: ..\message_adc.c \
+  C:\Users\ehuiyue\workspace_ccstheia\adc_to_uart_LP_MSPM0G3507_nortos_ticlang\message.h \
+  C:\Users\ehuiyue\workspace_ccstheia\adc_to_uart_LP_MSPM0G3507_nortos_ticlang\buffer.h
+
+C:\Users\ehuiyue\workspace_ccstheia\adc_to_uart_LP_MSPM0G3507_nortos_ticlang\message.h:
+
+C:\Users\ehuiyue\workspace_ccstheia\adc_to_uart_LP_MSPM0G3507_nortos_ticlang\buffer.h:

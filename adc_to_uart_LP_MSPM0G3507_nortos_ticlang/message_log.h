@@ -10,7 +10,7 @@
 
 /* ---------------- Private variables ---------------- */
 struct log_message {
-    struct message *msg;
+    struct message_gui *msg;
     struct log *log;
 };
 

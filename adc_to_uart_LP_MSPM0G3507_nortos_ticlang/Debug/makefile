@@ -4,7 +4,7 @@
 
 SHELL = cmd.exe
 
-CG_TOOL_ROOT := C:/ti/ccstheia131/ccs/tools/compiler/ti-cgt-armllvm_3.2.2.LTS
+CG_TOOL_ROOT := C:/ti/ccstheia140/ccs/tools/compiler/ti-cgt-armllvm_3.2.2.LTS
 
 GEN_OPTS__FLAG := @"./device.opt" 
 GEN_CMDS__FLAG := -Wl,-l"./device_linker.cmd" 
@@ -13,11 +13,13 @@ ORDERED_OBJS += \
 "./adc_to_uart.o" \
 "./ti_msp_dl_config.o" \
 "./startup_mspm0g350x_ticlang.o" \
+"./buffer.o" \
 "./converter.o" \
 "./dc_1v2.o" \
 "./dl_uart_custom.o" \
 "./flag.o" \
-"./message_adc.o" \
+"./message.o" \
+"./message_gui.o" \
 "./message_log.o" \
 $(GEN_CMDS__FLAG) \
 -Wl,-ldevice.cmd.genlibs \
@@ -142,15 +144,15 @@ all: $(OBJS) $(GEN_CMDS)
 adc_to_uart_LP_MSPM0G3507_nortos_ticlang.out: $(OBJS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: Arm Linker'
-	"C:/ti/ccstheia131/ccs/tools/compiler/ti-cgt-armllvm_3.2.2.LTS/bin/tiarmclang.exe" @"device.opt"  -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -gdwarf-3 -Wl,-m"adc_to_uart_LP_MSPM0G3507_nortos_ticlang.map" -Wl,-i"C:/ti/mspm0_sdk_2_00_01_00/source" -Wl,-i"C:/Users/ehuiyue/workspace_ccstheia/adc_to_uart_LP_MSPM0G3507_nortos_ticlang" -Wl,-i"C:/Users/ehuiyue/workspace_ccstheia/adc_to_uart_LP_MSPM0G3507_nortos_ticlang/Debug/syscfg" -Wl,-i"C:/ti/ccstheia131/ccs/tools/compiler/ti-cgt-armllvm_3.2.2.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="adc_to_uart_LP_MSPM0G3507_nortos_ticlang_linkInfo.xml" -Wl,--rom_model -o "adc_to_uart_LP_MSPM0G3507_nortos_ticlang.out" $(ORDERED_OBJS)
+	"C:/ti/ccstheia140/ccs/tools/compiler/ti-cgt-armllvm_3.2.2.LTS/bin/tiarmclang.exe" @"device.opt"  -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -gdwarf-3 -Wl,-m"adc_to_uart_LP_MSPM0G3507_nortos_ticlang.map" -Wl,-i"C:/ti/mspm0_sdk_2_00_01_00/source" -Wl,-i"C:/Users/ehuiyue/workspace_ccstheia/adc_to_uart_LP_MSPM0G3507_nortos_ticlang" -Wl,-i"C:/Users/ehuiyue/workspace_ccstheia/adc_to_uart_LP_MSPM0G3507_nortos_ticlang/Debug/syscfg" -Wl,-i"C:/ti/ccstheia140/ccs/tools/compiler/ti-cgt-armllvm_3.2.2.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="adc_to_uart_LP_MSPM0G3507_nortos_ticlang_linkInfo.xml" -Wl,--rom_model -o "adc_to_uart_LP_MSPM0G3507_nortos_ticlang.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(GEN_MISC_FILES__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "adc_to_uart.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "converter.o" "dc_1v2.o" "dl_uart_custom.o" "flag.o" "message_adc.o" "message_log.o" 
-	-$(RM) "adc_to_uart.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "converter.d" "dc_1v2.d" "dl_uart_custom.d" "flag.d" "message_adc.d" "message_log.d" 
+	-$(RM) "adc_to_uart.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "buffer.o" "converter.o" "dc_1v2.o" "dl_uart_custom.o" "flag.o" "message.o" "message_gui.o" "message_log.o" 
+	-$(RM) "adc_to_uart.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "buffer.d" "converter.d" "dc_1v2.d" "dl_uart_custom.d" "flag.d" "message.d" "message_gui.d" "message_log.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

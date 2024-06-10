@@ -46,6 +46,7 @@
 #include "flag.h"
 #include "log.h"
 #include "message_log.h"
+#include "message_gui.h"
 
 // Show log in Dear ImGui by enabling MCU_LOG.
 #define MCU_LOG

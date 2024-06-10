@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="all" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" WORKING_DIR="file://$PROJECT_DIR$/Debug" PASS_PARENT_ENVS_2="true" PROJECT_NAME="adc_to_uart_LP_MSPM0G3507_nortos_ticlang" TARGET_NAME="Theia" CONFIG_NAME="Theia" RUN_PATH="$PROJECT_DIR$/Debug/adc_to_uart_LP_MSPM0G3507_nortos_ticlang.out">
+    <method v="2">
+      <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+    </method>
+  </configuration>
+</component>
