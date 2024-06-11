@@ -6,21 +6,49 @@ SHELL = cmd.exe
 
 CG_TOOL_ROOT := C:/ti/ccstheia140/ccs/tools/compiler/ti-cgt-armllvm_3.2.2.LTS
 
-GEN_OPTS__FLAG := @"./device.opt" 
-GEN_CMDS__FLAG := -Wl,-l"./device_linker.cmd" 
+GEN_OPTS__FLAG := 
+GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
 "./adc_to_uart.o" \
-"./ti_msp_dl_config.o" \
-"./startup_mspm0g350x_ticlang.o" \
-"./buffer.o" \
-"./converter.o" \
-"./dc_1v2.o" \
-"./dl_uart_custom.o" \
-"./flag.o" \
-"./message.o" \
-"./message_gui.o" \
-"./message_log.o" \
+"./devices/msp/m0p/startup_system_files/ticlang/startup_mspm0g350x_ticlang.o" \
+"./driverlib/dl_adc12.o" \
+"./driverlib/dl_aes.o" \
+"./driverlib/dl_aesadv.o" \
+"./driverlib/dl_common.o" \
+"./driverlib/dl_crc.o" \
+"./driverlib/dl_crcp.o" \
+"./driverlib/dl_dac12.o" \
+"./driverlib/dl_dma.o" \
+"./driverlib/dl_flashctl.o" \
+"./driverlib/dl_i2c.o" \
+"./driverlib/dl_keystorectl.o" \
+"./driverlib/dl_lcd.o" \
+"./driverlib/dl_lfss.o" \
+"./driverlib/dl_mathacl.o" \
+"./driverlib/dl_mcan.o" \
+"./driverlib/dl_opa.o" \
+"./driverlib/dl_rtc_common.o" \
+"./driverlib/dl_spi.o" \
+"./driverlib/dl_timer.o" \
+"./driverlib/dl_trng.o" \
+"./driverlib/dl_uart.o" \
+"./driverlib/dl_vref.o" \
+"./driverlib/m0p/dl_interrupt.o" \
+"./driverlib/m0p/sysctl/dl_sysctl_mspm0c110x.o" \
+"./driverlib/m0p/sysctl/dl_sysctl_mspm0g1x0x_g3x0x.o" \
+"./driverlib/m0p/sysctl/dl_sysctl_mspm0l11xx_l13xx.o" \
+"./driverlib/m0p/sysctl/dl_sysctl_mspm0l122x_l222x.o" \
+"./src/buffer.o" \
+"./src/converter.o" \
+"./src/dc_1v2.o" \
+"./src/dl_uart_custom.o" \
+"./src/flag.o" \
+"./src/message_gui.o" \
+"./src/message_log.o" \
+"./src/message_ucd.o" \
+"./syscfg/ti_msp_dl_config.o" \
+"../devices/msp/m0p/linker_files/ticlang/mspm0g3507.cmd" \
 $(GEN_CMDS__FLAG) \
 -Wl,-ldevice.cmd.genlibs \
 -Wl,-llibc.a \
@@ -33,7 +61,21 @@ RMDIR := RMDIR /S/Q
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir_vars.mk
+-include devices/msp/m0p/linker_files/ticlang/subdir_vars.mk
+-include devices/msp/m0p/startup_system_files/ticlang/subdir_vars.mk
+-include driverlib/subdir_vars.mk
+-include driverlib/m0p/subdir_vars.mk
+-include driverlib/m0p/sysctl/subdir_vars.mk
+-include src/subdir_vars.mk
+-include syscfg/subdir_vars.mk
 -include subdir_rules.mk
+-include devices/msp/m0p/linker_files/ticlang/subdir_rules.mk
+-include devices/msp/m0p/startup_system_files/ticlang/subdir_rules.mk
+-include driverlib/subdir_rules.mk
+-include driverlib/m0p/subdir_rules.mk
+-include driverlib/m0p/sysctl/subdir_rules.mk
+-include src/subdir_rules.mk
+-include syscfg/subdir_rules.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -137,22 +179,22 @@ EXE_OUTPUTS__QUOTED += \
 
 
 # All Target
-all: $(OBJS) $(GEN_CMDS)
+all: $(OBJS) $(LDS_SRCS) $(CMD_SRCS) $(A_SRCS) $(GEN_CMDS)
 	@$(MAKE) --no-print-directory -Onone "adc_to_uart_LP_MSPM0G3507_nortos_ticlang.out"
 
 # Tool invocations
-adc_to_uart_LP_MSPM0G3507_nortos_ticlang.out: $(OBJS) $(GEN_CMDS)
+adc_to_uart_LP_MSPM0G3507_nortos_ticlang.out: $(OBJS) $(LDS_SRCS) $(CMD_SRCS) $(A_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: Arm Linker'
-	"C:/ti/ccstheia140/ccs/tools/compiler/ti-cgt-armllvm_3.2.2.LTS/bin/tiarmclang.exe" @"device.opt"  -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -gdwarf-3 -Wl,-m"adc_to_uart_LP_MSPM0G3507_nortos_ticlang.map" -Wl,-i"C:/ti/mspm0_sdk_2_00_01_00/source" -Wl,-i"C:/Users/ehuiyue/workspace_ccstheia/adc_to_uart_LP_MSPM0G3507_nortos_ticlang" -Wl,-i"C:/Users/ehuiyue/workspace_ccstheia/adc_to_uart_LP_MSPM0G3507_nortos_ticlang/Debug/syscfg" -Wl,-i"C:/ti/ccstheia140/ccs/tools/compiler/ti-cgt-armllvm_3.2.2.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="adc_to_uart_LP_MSPM0G3507_nortos_ticlang_linkInfo.xml" -Wl,--rom_model -o "adc_to_uart_LP_MSPM0G3507_nortos_ticlang.out" $(ORDERED_OBJS)
+	"C:/ti/ccstheia140/ccs/tools/compiler/ti-cgt-armllvm_3.2.2.LTS/bin/tiarmclang.exe" -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -D__MSPM0G3507__ -gdwarf-3 -Wl,-m"adc_to_uart_LP_MSPM0G3507_nortos_ticlang.map" -Wl,-i"C:/ti/mspm0_sdk_2_00_01_00/source" -Wl,-i"C:/Users/ehuiyue/workspace_ccstheia/adc_to_uart_LP_MSPM0G3507_nortos_ticlang" -Wl,-i"C:/Users/ehuiyue/workspace_ccstheia/adc_to_uart_LP_MSPM0G3507_nortos_ticlang/Debug/syscfg" -Wl,-i"C:/ti/ccstheia140/ccs/tools/compiler/ti-cgt-armllvm_3.2.2.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="adc_to_uart_LP_MSPM0G3507_nortos_ticlang_linkInfo.xml" -Wl,--rom_model -o "adc_to_uart_LP_MSPM0G3507_nortos_ticlang.out" $(ORDERED_OBJS) $(A_SRCS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(GEN_MISC_FILES__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "adc_to_uart.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "buffer.o" "converter.o" "dc_1v2.o" "dl_uart_custom.o" "flag.o" "message.o" "message_gui.o" "message_log.o" 
-	-$(RM) "adc_to_uart.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "buffer.d" "converter.d" "dc_1v2.d" "dl_uart_custom.d" "flag.d" "message.d" "message_gui.d" "message_log.d" 
+	-$(RM) $(EXE_OUTPUTS__QUOTED)
+	-$(RM) "adc_to_uart.o" "devices\msp\m0p\startup_system_files\ticlang\startup_mspm0g350x_ticlang.o" "driverlib\dl_adc12.o" "driverlib\dl_aes.o" "driverlib\dl_aesadv.o" "driverlib\dl_common.o" "driverlib\dl_crc.o" "driverlib\dl_crcp.o" "driverlib\dl_dac12.o" "driverlib\dl_dma.o" "driverlib\dl_flashctl.o" "driverlib\dl_i2c.o" "driverlib\dl_keystorectl.o" "driverlib\dl_lcd.o" "driverlib\dl_lfss.o" "driverlib\dl_mathacl.o" "driverlib\dl_mcan.o" "driverlib\dl_opa.o" "driverlib\dl_rtc_common.o" "driverlib\dl_spi.o" "driverlib\dl_timer.o" "driverlib\dl_trng.o" "driverlib\dl_uart.o" "driverlib\dl_vref.o" "driverlib\m0p\dl_interrupt.o" "driverlib\m0p\sysctl\dl_sysctl_mspm0c110x.o" "driverlib\m0p\sysctl\dl_sysctl_mspm0g1x0x_g3x0x.o" "driverlib\m0p\sysctl\dl_sysctl_mspm0l11xx_l13xx.o" "driverlib\m0p\sysctl\dl_sysctl_mspm0l122x_l222x.o" "src\buffer.o" "src\converter.o" "src\dc_1v2.o" "src\dl_uart_custom.o" "src\flag.o" "src\message_gui.o" "src\message_log.o" "src\message_ucd.o" "syscfg\ti_msp_dl_config.o" 
+	-$(RM) "adc_to_uart.d" "devices\msp\m0p\startup_system_files\ticlang\startup_mspm0g350x_ticlang.d" "driverlib\dl_adc12.d" "driverlib\dl_aes.d" "driverlib\dl_aesadv.d" "driverlib\dl_common.d" "driverlib\dl_crc.d" "driverlib\dl_crcp.d" "driverlib\dl_dac12.d" "driverlib\dl_dma.d" "driverlib\dl_flashctl.d" "driverlib\dl_i2c.d" "driverlib\dl_keystorectl.d" "driverlib\dl_lcd.d" "driverlib\dl_lfss.d" "driverlib\dl_mathacl.d" "driverlib\dl_mcan.d" "driverlib\dl_opa.d" "driverlib\dl_rtc_common.d" "driverlib\dl_spi.d" "driverlib\dl_timer.d" "driverlib\dl_trng.d" "driverlib\dl_uart.d" "driverlib\dl_vref.d" "driverlib\m0p\dl_interrupt.d" "driverlib\m0p\sysctl\dl_sysctl_mspm0c110x.d" "driverlib\m0p\sysctl\dl_sysctl_mspm0g1x0x_g3x0x.d" "driverlib\m0p\sysctl\dl_sysctl_mspm0l11xx_l13xx.d" "driverlib\m0p\sysctl\dl_sysctl_mspm0l122x_l222x.d" "src\buffer.d" "src\converter.d" "src\dc_1v2.d" "src\dl_uart_custom.d" "src\flag.d" "src\message_gui.d" "src\message_log.d" "src\message_ucd.d" "syscfg\ti_msp_dl_config.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

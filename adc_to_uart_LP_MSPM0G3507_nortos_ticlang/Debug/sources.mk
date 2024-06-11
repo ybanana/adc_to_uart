@@ -125,4 +125,11 @@ GEN_OPTS__QUOTED :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 . \
+devices/msp/m0p/linker_files/ticlang \
+devices/msp/m0p/startup_system_files/ticlang \
+driverlib \
+driverlib/m0p \
+driverlib/m0p/sysctl \
+src \
+syscfg \
 

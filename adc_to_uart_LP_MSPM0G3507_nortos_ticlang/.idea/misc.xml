@@ -7,7 +7,6 @@
   <component name="MakefileSettings">
     <option name="linkedExternalProjectsSettings">
       <MakefileProjectSettings>
-        <option name="buildOptions" value="-k -j 8" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/Debug" />
         <option name="modules">
           <set>
