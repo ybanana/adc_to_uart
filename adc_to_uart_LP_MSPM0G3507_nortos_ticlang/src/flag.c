@@ -4,7 +4,7 @@
 #include "driverlib/m0p/dl_core.h"
 #include "../include/flag.h"
 
-uint8_t ToggleFlag(uint8_t flag) {
+uint8_t toggle_flag(uint8_t flag) {
     if (flag == FALSE) {
         flag = TRUE;
         return flag;
@@ -14,14 +14,14 @@ uint8_t ToggleFlag(uint8_t flag) {
     }
 }
 
-void InitFlag(struct interrupt_status *p_flag) {
+void init_flag(struct interrupt_status *p_flag) {
     p_flag->adc0 = FALSE;
     p_flag->uart0 = FALSE;
-    p_flag->toggle = ToggleFlag;
+    p_flag->toggle = toggle_flag;
 }
 
-void WaitADCConversionDone(struct interrupt_status *p_flag) {
-    p_flag->toggle = ToggleFlag;
+void wait_ADC_conversion_done(struct interrupt_status *p_flag) {
+    p_flag->toggle = toggle_flag;
     uint8_t tmp_flag = p_flag->toggle(p_flag->adc0);
     while (FALSE == tmp_flag) {
         // tmp_flag would be updated to TRUE,

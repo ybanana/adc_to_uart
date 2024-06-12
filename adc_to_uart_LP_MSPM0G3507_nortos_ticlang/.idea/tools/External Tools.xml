@@ -3,7 +3,7 @@
     <exec>
       <option name="COMMAND" value="C:\ti\ccstheia131\ccs\utils\bin\gmake.exe" />
       <option name="PARAMETERS" value="-k -j 8 all -O" />
-      <option name="WORKING_DIRECTORY" value="C:/Users/ehuiyue/workspace_ccstheia/adc_to_uart_LP_MSPM0G3507_nortos_ticlang/Debug" />
+      <option name="WORKING_DIRECTORY" value="$USER_HOME$/workspace_ccstheia/adc_to_uart_LP_MSPM0G3507_nortos_ticlang/Debug" />
     </exec>
   </tool>
   <tool name="CCS_Theia_Clean" showInMainMenu="false" showInEditor="false" showInProject="false" showInSearchPopup="false" disabled="false" useConsole="true" showConsoleOnStdOut="false" showConsoleOnStdErr="false" synchronizeAfterRun="true">

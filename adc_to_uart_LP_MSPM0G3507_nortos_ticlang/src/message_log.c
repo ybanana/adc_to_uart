@@ -43,7 +43,7 @@ static struct log_message log_msg = {
 
 /* ---------------- Public functions ---------------- */
 // Create a log message.
-struct log_message *InitLogMessage(void) {
+struct log_message *init_log_message(void) {
     return &log_msg;
 }
 
@@ -56,9 +56,9 @@ struct log_message *InitLogMessage(void) {
  * @note, This function only works when UART0 is initialized.
  * @note, no FIFO enable. Send one byte per time by calling HAL_UART_Transmit.
  */
-hal_status_t LogMessageSent(struct log_message *p_log_msg,
-                    enum log_type log_type,
-                    enum log_num number) {
+hal_status_t send_log_message(struct log_message *p_log_msg,
+                              enum log_type log_type,
+                              enum log_num number) {
     uint8_t tmp_array[3];
     tmp_array[0] = p_log_msg->msg->type;
     p_log_msg->log->type = log_type;

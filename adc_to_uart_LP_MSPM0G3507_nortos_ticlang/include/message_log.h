@@ -17,11 +17,11 @@ struct log_message {
 /* ---------------- Public API --------------------------- */
 
 // Initialize a log message.
-struct log_message *InitLogMessage(void);
+struct log_message *init_log_message(void);
 
 // Send a log message. Return UART status, say HAL_OK if sent successfully.
-hal_status_t LogMessageSent(struct log_message *p_log_msg,
-                    enum log_type log_type,
-                    enum log_num number);
+hal_status_t send_log_message(struct log_message *p_log_msg,
+                              enum log_type log_type,
+                              enum log_num number);
 
 #endif //MESSAGE_LOG_H

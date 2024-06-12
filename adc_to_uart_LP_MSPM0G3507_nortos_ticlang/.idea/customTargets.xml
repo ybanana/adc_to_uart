@@ -2,7 +2,7 @@
 <project version="4">
   <component name="CLionExternalBuildManager">
     <target id="ef9fc9f1-a96d-492d-93c9-fb52e687198e" name="Theia" defaultType="TOOL">
-      <configuration id="19ecbb53-4406-422d-a471-621ad7588541" name="Theia">
+      <configuration id="19ecbb53-4406-422d-a471-621ad7588541" name="Theia" toolchainName="Theia">
         <build type="TOOL">
           <tool actionId="Tool_External Tools_CCS_Theia" />
         </build>

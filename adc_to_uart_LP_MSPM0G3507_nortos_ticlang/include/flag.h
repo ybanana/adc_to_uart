@@ -19,8 +19,8 @@ struct interrupt_status {
 };
 
 // Declaration
-uint8_t ToggleFlag(uint8_t flag);
-void InitFlag(struct interrupt_status *p_flag);
-void WaitADCConversionDone(struct interrupt_status *p_flag);
+uint8_t toggle_flag(uint8_t flag);
+void init_flag(struct interrupt_status *p_flag);
+void wait_ADC_conversion_done(struct interrupt_status *p_flag);
 
 #endif //FLAG_H

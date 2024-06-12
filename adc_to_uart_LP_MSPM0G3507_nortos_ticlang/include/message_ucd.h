@@ -13,26 +13,25 @@ enum msg_constant_ucd {
  * union for the data that vary their length.
  */
 struct data_varying_length {
-//    uint8_t length;                    /* length of a message. How many bytes in it? */
     union {
         uint8_t data_1byte;          /* 1 byte data */
 
         uint16_t data_2byte;         /* 2 bytes data */
 
         struct {
-            uint8_t byte0;    /* 3 bytes data */
+            uint8_t byte0;           /* 3 separated bytes data */
             uint8_t byte1;
             uint8_t byte2;
         } data_3byte;
 
         struct {
-            uint8_t byte0;
-            uint16_t byte12;
+            uint8_t byte0;           /* 1 bytes data */
+            uint16_t byte12;         /* 2 bytes data */
         } data_1byte_2byte;
 
         struct {
-            uint16_t byte01;
-            uint8_t byte2;
+            uint16_t byte01;         /* 2 bytes data */
+            uint8_t byte2;           /* 1 bytes data */
         } data_2byte_1byte;
         /* More bytes if needed */
     };

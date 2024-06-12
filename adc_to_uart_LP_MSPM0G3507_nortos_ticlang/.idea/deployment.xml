@@ -10,23 +10,7 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="Remote Embedded (3d563ea8-e8d5-46d4-a62d-7af64f6138e7)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-            <mapping local="$PROJECT_DIR$/../../../../ti/mspm0_sdk_2_00_01_00/source/ti/devices/msp/m0p/startup_system_files/ticlang" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
       <paths name="Remote Embedded C (9da95b54-ac94-440b-901f-c05db3c23e58)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-            <mapping local="$PROJECT_DIR$/../../../../ti/mspm0_sdk_2_00_01_00/source/ti/devices/msp/m0p/startup_system_files/ticlang" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="Remote Linux C++ (89f28ec8-c1dc-4deb-a529-3688bb386112)">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
