@@ -34,6 +34,11 @@ struct data_varying_length {
             uint8_t byte2;           /* 1 bytes data */
         } data_2byte_1byte;
         /* More bytes if needed */
+        struct {                     /* 6 bytes data */
+            uint16_t byte01;
+            uint16_t byte23;
+            uint16_t byte45;
+        } data_3_2bytes;
     };
 };
 
@@ -84,5 +89,9 @@ struct message_ucd {
     enum message_id id;
     struct data_varying_length data;
 };
+
+/* --------------------------- Public API ------------------------------- */
+struct message_ucd MSG_SetVoltageExtA(uint8_t rail_id, uint8_t voltage_setpoint_byte0); 
+struct message_ucd ucd_msg_read_power_system_status(void);
 
 #endif // MESSAGE_UCD_H

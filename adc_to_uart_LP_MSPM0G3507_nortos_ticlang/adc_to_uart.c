@@ -39,18 +39,19 @@
 #include "driverlib/m0p/dl_core.h"
 #include "./syscfg/ti_msp_dl_config.h"
 // My libraries
-#include "../include/dl_gpio_custom.h"
-#include "../include/converter.h"
-#include "../include/message_ucd.h"
-#include "../include/dl_uart_custom.h"       /* Use customized UART struct */
-#include "../include/dl_adc12_custom.h"      /* Use customized ADC12 struct */
-#include "../include/flag.h"
-#include "../include/log.h"
-#include "../include/message_log.h"
-#include "../include/message_gui.h"
+#include "dl_gpio_custom.h"
+#include "converter.h"
+#include "message_ucd.h"
+#include "dl_uart_custom.h"       /* Use customized UART struct */
+#include "dl_adc12_custom.h"      /* Use customized ADC12 struct */
+#include "flag.h"
+#include "log.h"
+#include "message_log.h"
+#include "message_gui.h"
+#include "msg_pool.h"
 
 // Show log in Dear ImGui by enabling MCU_LOG.
-#define MCU_LOG
+//#define MCU_LOG
 
 // Test some of the functions or not
 // #define FUNC_TEST
@@ -64,16 +65,15 @@ static struct gpio_handle hgpiob;         /* Create an object of GPIOB */
 static struct adc_handle hadc0;           /* Create an object of ADC0 */
 
 /* Declaration of functions defined and implemented at the bottom of this C file. */
-static void InitUART0(void);
-static void InitGPIOA(void);
-static void InitGPIOB(void);
-static void InitADC0(void);
+static void init_UART0(void);
+static void init_GPIOA(void);
+static void init_GPIOB(void);
+static void init_ADC0(void);
 static void enable_dummy_rail(struct gpio_handle *hgpio, uint32_t pin);
 static void send_plot_data(DL_ADC12_MEM_IDX index);
 
-/* Use extern to declare the function in the other .c file if no corresponding header file as an interface. */
+/* With extern, the functions in the other .c file can be used if no .h file as an interface. */
 extern struct converter CreateDC1V2(void);
-extern enum converter_enable_status enable_dc_1v2(struct converter *rdev, struct gpio_handle *hgpio, uint32_t pin);
 
 /* --------------------- Main start ----------------------- */
 int main(void) {
@@ -84,33 +84,48 @@ int main(void) {
     NVIC_EnableIRQ(UART_0_INST_INT_IRQN);
 
     /* Initialize the peripherals*/
-    InitUART0();
-    InitGPIOA();
-    InitGPIOB();
-    InitADC0();
+    init_UART0();
+    init_GPIOA();
+    init_GPIOB();
+    init_ADC0();
 
-    struct log_message *p_log_msg = init_log_message();    /* log message created. */
+    struct log_message log_msg = init_log_message();    /* log message created. */
+//    struct message_gui
 
 #ifdef MCU_LOG
-    send_log_message(p_log_msg, LOG_INFO, MEMORY_ALLOCATED);
-    send_log_message(p_log_msg, LOG_INFO, UART0_INIT);
+    send_log_message(&log_msg, LOG_INFO, MEMORY_ALLOCATED);
+    send_log_message(&log_msg, LOG_INFO, UART0_INIT);
 #endif
 
     struct converter dc_1v2 = CreateDC1V2();    /* New way to initialize the DC converter. */
 
 #ifdef MCU_LOG
-    send_log_message(p_log_msg, LOG_INFO, MESSAGE_BUFFER_INIT);
+    send_log_message(&log_msg, LOG_INFO, MESSAGE_BUFFER_INIT);
 #endif
 
     init_flag(&gCheck);    /* Initialize interrupt flag */
 
     const int tmp_cycles = CPUCLK_FREQ * 1 / 1;    /* define a delay time */
 
-    // enable dc_1v2 by GPIO PB27 (see schematic and sysconfig). Would be put in system_paramter.h
-    enable_converter_by_pin(&dc_1v2, &hgpiob, DL_GPIO_PIN_27);
-    
-    // enable dummy_rail by GPIO PA0.
-    enable_dummy_rail(&hgpioa, DL_GPIO_PIN_0);
+    enable_converter_by_pin(&dc_1v2, &hgpiob, DL_GPIO_PIN_27);    /* enable dc_1v2 by GPIO PB27. */
+
+    enable_dummy_rail(&hgpioa, DL_GPIO_PIN_0);    /* enable dummy_rail by GPIO PA0. */
+
+    struct message_pool msg_pool_tx = init_msg_pool_tx();    /* Initialize the message pool for sending message out. */
+
+    struct message_ucd ucd_msg01 = {
+        .id = READ_POWER_SYSTEM_STATUS_REQ,
+        .data = {
+            .data_3_2bytes = {
+                .byte01 = 0x2222,
+                .byte23 = 0x3333,
+                .byte45 = 0x4444,
+            },
+        },
+    };
+
+    struct msg_pkg *msg_pkg_01;
+    msg_pkg_01 = msg_pkg_created(&ucd_msg01);
 
 /* -------------------- Super loop -----------------------*/
     while (1) {
@@ -124,7 +139,7 @@ int main(void) {
 
 #ifdef MCU_LOG
         // Send out the log about sending the plotting data done.
-        send_log_message(p_log_msg, LOG_INFO, PLOT_DATA_SENT_UART0);
+        send_log_message(&log_msg, LOG_INFO, PLOT_DATA_SENT_UART0);
 #endif
         delay_cycles(tmp_cycles);    // Insert a delay
 
@@ -135,6 +150,9 @@ int main(void) {
         DL_ADC12_enableConversions(hadc0.instance);    /* Enable ADC conversion again. */
 
         disable_converter_by_pin(&dc_1v2, &hgpiob, DL_GPIO_PIN_27);    /* For test. Add a breakpoint here. */
+
+        /* message and pool operations */
+        
     }
 }
 
@@ -190,23 +208,23 @@ void send_plot_data(DL_ADC12_MEM_IDX index) {
 }
 
 /* Initialize UART0 peripheral. */
-void InitUART0(void) {
+void init_UART0(void) {
     huart0.instance = UART0;    /* Set the base address of UART0 registers huart0 */
     huart0.gState = HAL_UART_STATE_READY;
 }
 
 /* Initialize GPIOA peripheral. */
-void InitGPIOA(void) {
+void init_GPIOA(void) {
     hgpioa.instance = GPIOA;    /* Set the base address of GPIOA registers hgpioa */
 }
 
 /* Initialize GPIOB peripheral. */
-void InitGPIOB(void) {
+void init_GPIOB(void) {
     hgpiob.instance = GPIOB;    /* Set the base address of GPIOB registers to hgpiob */
 }
 
 /* Initialize ADC12 peripheral. */
-void InitADC0(void) {
+void init_ADC0(void) {
     // Initialize the object of hgpiob
     hadc0.instance = ADC0;    /* Set the base address of ADC0 registers to hadc0 */
 }

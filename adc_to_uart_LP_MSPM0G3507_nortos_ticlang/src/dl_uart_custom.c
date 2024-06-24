@@ -1,7 +1,7 @@
-#include "driverlib/dl_uart_main.h"
-#include "driverlib/dl_uart_extend.h"
-#include "driverlib/m0p/dl_core.h"
-#include "../include/dl_uart_custom.h"
+#include "../driverlib/dl_uart_main.h"
+#include "../driverlib/dl_uart_extend.h"
+#include "../driverlib/m0p/dl_core.h"
+#include "dl_uart_custom.h"
 #include <stdlib.h>
 
 /**

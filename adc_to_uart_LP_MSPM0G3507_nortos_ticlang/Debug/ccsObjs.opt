@@ -35,6 +35,7 @@
 "./src/message_gui.o"
 "./src/message_log.o"
 "./src/message_ucd.o"
+"./src/msg_pool.o"
 "./syscfg/ti_msp_dl_config.o"
 "../devices/msp/m0p/linker_files/ticlang/mspm0g3507.cmd"
 -ldevice.cmd.genlibs

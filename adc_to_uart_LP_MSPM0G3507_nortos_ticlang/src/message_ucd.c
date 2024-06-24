@@ -2,9 +2,9 @@
 // Created by ehuiyue on 6/7/2024.
 //
 
-#include "../include/message_ucd.h"
+#include "message_ucd.h"
 
-static struct message_ucd read_power_system_status = {
+static struct message_ucd read_power_system_status_req = {
         .id = READ_POWER_SYSTEM_STATUS_REQ,
         .data = {
                 .data_3byte = {
@@ -80,17 +80,21 @@ static struct message_ucd set_power_rail_voltage_ext_b_req = {
 
 /* --------------------------- Public API ------------------------------- */
 // Temp location for CalcCRC8
-uint8_t CalcCRC8(uint8_t *data) {
+uint8_t CalcCRC8(uint8_t data) {
     // Calculate CRC-8
     return 0;
 }
 
-struct message_ucd *MSG_SetVoltageExtA(uint8_t rail_id, uint8_t voltage_setpoint_byte0) {
+struct message_ucd MSG_SetVoltageExtA(uint8_t rail_id, uint8_t voltage_setpoint_byte0) {
     // Define a temporary message
-    struct message_ucd *msg = &set_power_rail_voltage_ext_a_req;
-    msg->data.data_3byte.byte0 = rail_id;
-    msg->data.data_3byte.byte1 = voltage_setpoint_byte0;
-    msg->data.data_3byte.byte2 = CalcCRC8(&msg->data.data_3byte.byte1); // CRC-8
+    struct message_ucd msg = set_power_rail_voltage_ext_a_req;
+    msg.data.data_3byte.byte0 = rail_id;
+    msg.data.data_3byte.byte1 = voltage_setpoint_byte0;
+    msg.data.data_3byte.byte2 = CalcCRC8(msg.data.data_3byte.byte1); // CRC-8
     return msg;
 }
 
+struct message_ucd ucd_msg_read_power_system_status(void) {
+    struct message_ucd msg = read_power_system_status_req;
+    return msg;
+}

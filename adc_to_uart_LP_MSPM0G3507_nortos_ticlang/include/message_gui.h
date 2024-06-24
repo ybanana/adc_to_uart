@@ -7,7 +7,7 @@
 
 #include "buffer.h"
 
-/* --------------------------- message format ------------------------------- */
+/* --------------------------- message format to GUI ------------------------------- */
 // enum to indicate the types of messages, say log, plot date
 enum message_type {
     MSG_LOG = 0xA1,
@@ -19,4 +19,9 @@ struct message_gui {
     struct buffer *buf;
     enum state gState;
 };
+
+/* ---------------- Public functions ---------------- */
+// Create an ADC message.
+struct message_gui init_ADC_message(void);
+
 #endif // MESSAGE_ADC_H

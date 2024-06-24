@@ -1,4 +1,4 @@
-#include "../include/message_gui.h"
+#include "message_gui.h"
 
 // Set up a buffer to store the ADC data.
 #define ADC_BUFFER_SIZE 128
@@ -25,6 +25,6 @@ static struct message_gui adc_msg = {
 
 /* ---------------- Public functions ---------------- */
 // Create an ADC message.
-struct message_gui *InitADCMessage(void) {
-    return &adc_msg;
+struct message_gui init_ADC_message(void) {
+    return adc_msg;
 }

@@ -1,8 +1,8 @@
 //
 // Created by ehuiyue on 5/28/2024.
 //
-#include "driverlib/m0p/dl_core.h"
-#include "../include/flag.h"
+#include "../driverlib/m0p/dl_core.h"
+#include "flag.h"
 
 uint8_t toggle_flag(uint8_t flag) {
     if (flag == FALSE) {

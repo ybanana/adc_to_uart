@@ -1,9 +1,9 @@
 //
 // Created by ehuiyue on 5/29/2024.
 //
-#include "driverlib/dl_gpio.h"
-#include "../include/converter.h"
-#include "../include/dl_gpio_custom.h"
+#include "../driverlib/dl_gpio.h"
+#include "converter.h"
+#include "dl_gpio_custom.h"
 
 /* --------- Private variables --------- */
 static const struct converter_desc dc_1v2_desc = {

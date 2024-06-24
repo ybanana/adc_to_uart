@@ -1,6 +1,6 @@
-#include "driverlib/dl_gpio.h"
-#include "../include/converter.h" 
-#include "../include/dl_gpio_custom.h"
+#include "../driverlib/dl_gpio.h"
+#include "converter.h" 
+#include "dl_gpio_custom.h"
 #include <sys/stdint.h>
 
 
