@@ -81,7 +81,7 @@ void msg_pkg_enpool(struct message_pool *pool, struct msg_pkg *pkg) {
     }
 
     /* Check if there is enough room to contain the package. */
-    uint8_t room = available_room(&pool);
+//    uint8_t room = available_room(&pool);
     uint8_t pkg_size = sizeof(pkg) + sizeof(pkg->info) + sizeof(pkg->info->data) + sizeof(pkg->info->data->id) + sizeof(pkg->info->data->data);
     uint8_t pkg_size_no_addr = pkg_size - 2*4;
     if (room < pkg_size) {
