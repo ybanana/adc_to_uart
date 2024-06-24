@@ -1,2 +1,2 @@
 ### MSPM0 project
-#### adc to uart originally from TI's example.
+- ADC to UART originally from TI's example.
