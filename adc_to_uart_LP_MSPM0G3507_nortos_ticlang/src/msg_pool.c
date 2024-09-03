@@ -3,6 +3,7 @@
 //
 #include "msg_pool.h"
 #include "message_ucd.h"
+#include <cstdint>
 
 /* ================================== Private variables for message package ===================== */
 
@@ -62,9 +63,11 @@ static struct message_pool msg_pool_tx = {
         .write_index = msg_pool_tx_array,
         .read_index = msg_pool_tx_array,
         .poolState = MESSAGE_POOL_UNLOCKED,
+        .size = MESSAGE_POOL_TX_SIZE,
         // .list = &reg_list,
         .write = msg_pkg_enpool,
         .read = msg_pkg_depool,
+
 };
 
 /* ------------- Implementation of Public API ------------------- */
@@ -72,21 +75,32 @@ struct message_pool init_msg_pool_tx(void) {
     return msg_pool_tx;
 }
 
-void msg_pkg_enpool(struct message_pool *pool, struct msg_pkg *pkg) {
+uint16_t available_room(struct message_pool *pool) {
+    uint16_t val;
+    if (pool->read_index <= pool->write_index) {
+        val = ((pool->array + pool->size) - pool->write_index) + (pool->read_index - pool->array);
+    } else {
+        val = pool->read_index - pool->write_index;
+    }
+    return val;
+}
+
+enum message_pool_state msg_pkg_enpool(struct message_pool *pool, struct msg_pkg *pkg) {
     if (pool->poolState == MESSAGE_POOL_LOCKED) {
         // Give some code to indicate pool is locked by others.
-        return;
+        return MESSAGE_POOL_LOCKED;
     } else {
         pool->poolState = MESSAGE_POOL_LOCKED;
     }
 
     /* Check if there is enough room to contain the package. */
-//    uint8_t room = available_room(&pool);
-    uint8_t pkg_size = sizeof(pkg) + sizeof(pkg->info) + sizeof(pkg->info->data) + sizeof(pkg->info->data->id) + sizeof(pkg->info->data->data);
-    uint8_t pkg_size_no_addr = pkg_size - 2*4;
+    uint16_t room = available_room(pool);
+    uint8_t pkg_size = sizeof(msg_pkg) - ADDR_SIZE + sizeof(msg_info) - ADDR_SIZE + sizeof(message_ucd);
     if (room < pkg_size) {
         // No enough room to take the coming package.
-        return;
+        pool->poolState = MESSAGE_POOL_FULL;
+        // TODO: How to split the pool state to several types, say Locked/Unlocked and Full/Empty etc.
+        break;
     } else {
         /* Register a message package into the pool */
         *(pool->write_index) = pkg->pkgState;
@@ -123,11 +137,6 @@ void msg_pkg_depool(struct message_pool *pool, struct msg_pkg *pkg) {
     } else {
         pool->poolState = MESSAGE_POOL_LOCKED;
     }
-
-    /* Release the room that message package occupied. */
-    uint8_t pkg_size = sizeof(pkg) + sizeof(pkg->info) + sizeof(pkg->info->data) + sizeof(pkg->info->data->id) + sizeof(pkg->info->data->data);
-    uint8_t pkg_size_no_addr = pkg_size - 2*4;
-    pool->write_index -= pkg_size_no_addr;
 
     /* Unlock the pool once the operation is done. */
     pool->poolState = MESSAGE_POOL_UNLOCKED;
